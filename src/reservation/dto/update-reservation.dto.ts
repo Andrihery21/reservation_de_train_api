@@ -1,29 +1,26 @@
 import {
     IsEmpty,
-    IsNotEmpty,
+    IsDate,
+    IsOptional,
     IsString,
-    IsDate
   } from 'class-validator';
   import { User } from '../../auth/schemas/user.schema';
- 
-export class CreateReservationDto {
-    @IsNotEmpty()
+  
+  
+  export class UpdateReservationDto {
+    @IsOptional()
     @IsString()
     readonly trajet: string;
   
-    @IsNotEmpty()
-    @IsString()
-    readonly description: string;
-  
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly siege: string;
   
-    @IsNotEmpty()
-    @IsDate()gi
-    readonly date: Date;
-
+    @IsOptional()
+    @IsDate()
+    readonly date: Date;  
   
     @IsEmpty({ message: 'You cannot pass user id' })
     readonly user: User;
   }
+  
