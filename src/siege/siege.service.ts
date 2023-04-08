@@ -5,19 +5,19 @@ import {
   } from '@nestjs/common';
   import { InjectModel } from '@nestjs/mongoose';
   import * as mongoose from 'mongoose';
-  import { Reservation } from './schemas/reservation.schema';
+  import { Siege } from './schemas/siege.schema';
   
   import { Query } from 'express-serve-static-core';
   import { User } from '../auth/schemas/user.schema';
   
   @Injectable()
-  export class ReservationService {
+  export class SiegeService {
     constructor(
-      @InjectModel(Reservation.name)
-      private reservationModel: mongoose.Model<Reservation>,
+      @InjectModel(Siege.name)
+      private siegeModel: mongoose.Model<Siege>,
     ) {}
   
-    async findAll(query: Query): Promise<Reservation[]> {
+    async findAll(query: Query): Promise<Siege[]> {
       const resPerPage = 2;
       const currentPage = Number(query.page) || 1;
       const skip = resPerPage * (currentPage - 1);
@@ -31,45 +31,45 @@ import {
           }
         : {};
   
-      const reservations = await this.reservationModel
+      const sieges = await this.siegeModel
         .find({ ...keyword })
         .limit(resPerPage)
         .skip(skip);
-      return reservations;
+      return sieges;
     }
   
-    async create(reservation: Reservation, user: User): Promise<Reservation> {
-      const data = Object.assign(reservation, { user: user._id });
+    async create(siege: Siege, user: User): Promise<Siege> {
+      const data = Object.assign(siege, { user: user._id });
   
-      const res = await this.reservationModel.create(data);
+      const res = await this.siegeModel.create(data);
       return res;
     }
   
-    async findById(id: string): Promise<Reservation> {
+    async findById(id: string): Promise<Siege> {
       const isValidId = mongoose.isValidObjectId(id);
   
       if (!isValidId) {
         throw new BadRequestException('Please enter correct id.');
       }
   
-      const reservation = await this.reservationModel.findById(id);
+      const siege = await this.siegeModel.findById(id);
   
-      if (!reservation) {
-        throw new NotFoundException('Reservation not found.');
+      if (!siege) {
+        throw new NotFoundException('Siege not found.');
       }
   
-      return reservation;
+      return siege;
     }
   
-    async updateById(id: string, reservation: Reservation): Promise<Reservation> {
-      return await this.reservationModel.findByIdAndUpdate(id, reservation, {
+    async updateById(id: string, siege: Siege): Promise<Siege> {
+      return await this.siegeModel.findByIdAndUpdate(id, siege, {
         new: true,
         runValidators: true,
       });
     }
   
-    async deleteById(id: string): Promise<Reservation> {
-      return await this.reservationModel.findByIdAndDelete(id);
+    async deleteById(id: string): Promise<Siege> {
+      return await this.siegeModel.findByIdAndDelete(id);
     }
   }
   
