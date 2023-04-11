@@ -29,13 +29,16 @@ import {
   
     @Post()
     @UseGuards(AuthGuard())
-    async createReservation(
+   async createReservation(
       @Body()
       reservation: CreateReservationDto,
       @Req() req,
     ): Promise<Reservation> {
-      return this.reservationService.create(reservation, req.user);
+       this.reservationService.sendMail();
+       return this.reservationService.create(reservation, req.user);
     }
+   
+    
   
     @Get(':id')
     async getReservation(

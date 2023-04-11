@@ -4,6 +4,7 @@ import {
     NotFoundException,
   } from '@nestjs/common';
   import { InjectModel } from '@nestjs/mongoose';
+  import { MailerService } from '@nestjs-modules/mailer/dist';
   import * as mongoose from 'mongoose';
   import { Reservation } from './schemas/reservation.schema';
   
@@ -15,6 +16,7 @@ import {
     constructor(
       @InjectModel(Reservation.name)
       private reservationModel: mongoose.Model<Reservation>,
+      private readonly mailerService: MailerService
     ) {}
   
     async findAll(query: Query): Promise<Reservation[]> {
@@ -40,10 +42,20 @@ import {
   
     async create(reservation: Reservation, user: User): Promise<Reservation> {
       const data = Object.assign(reservation, { user: user._id });
-  
+             
       const res = await this.reservationModel.create(data);
       return res;
     }
+
+    sendMail(): void {
+      this.mailerService.sendMail({
+        to:"andriheryeliasy@gmail.com",
+        from: 'roadsterandry@gmail.com',
+        subject:'Test confirmation',
+        text:'welcome',
+        html:'<b>Bienvenue à nodemailer</b>'
+        });
+       }
   
     async findById(id: string): Promise<Reservation> {
       const isValidId = mongoose.isValidObjectId(id);
