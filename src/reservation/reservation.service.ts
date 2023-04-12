@@ -51,9 +51,9 @@ import {
       this.mailerService.sendMail({
         to:"andriheryeliasy@gmail.com",
         from: 'roadsterandry@gmail.com',
-        subject:'Test confirmation',
-        text:'welcome',
-        html:'<b>Bienvenue à nodemailer</b>'
+        subject:'Confirmation',
+        text:'Gestion de train',
+        html:'<b>Votre reservation a été ajouté avec succès</b>'
         });
        }
   
@@ -72,6 +72,22 @@ import {
   
       return reservation;
     }
+
+    async findById2(trajet: string): Promise<Reservation> {
+      const isValidId = mongoose.isValidObjectId(trajet);
+  
+      if (!isValidId) {
+        throw new BadRequestException('Please enter correct trajet.');
+      }
+  
+      const reservation = await this.reservationModel.findById(trajet);
+  
+      if (!reservation) {
+        throw new NotFoundException('Reservation not found.');
+      }
+  
+      return reservation;
+    }
   
     async updateById(id: string, reservation: Reservation): Promise<Reservation> {
       return await this.reservationModel.findByIdAndUpdate(id, reservation, {
@@ -83,5 +99,15 @@ import {
     async deleteById(id: string): Promise<Reservation> {
       return await this.reservationModel.findByIdAndDelete(id);
     }
+
+    sendMail2(): void {
+      this.mailerService.sendMail({
+        to:"andriheryeliasy@gmail.com",
+        from: 'roadsterandry@gmail.com',
+        subject:'Confirmation',
+        text:'Gestion de train',
+        html:'<b>Votre reservation a été annulé</b>'
+        });
+       }
   }
   

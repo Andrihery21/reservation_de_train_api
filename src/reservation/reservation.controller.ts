@@ -47,6 +47,14 @@ import {
     ): Promise<Reservation> {
       return this.reservationService.findById(id);
     }
+
+    @Get(':trajet')
+    async getReservation2(
+      @Param('trajet')
+      trajet: string,
+    ): Promise<Reservation> {
+      return this.reservationService.findById(trajet);
+    }
   
     @Put(':id')
     async updateReservation(
@@ -63,6 +71,7 @@ import {
       @Param('id')
       id: string,
     ): Promise<Reservation> {
+      this.reservationService.sendMail2();
       return this.reservationService.deleteById(id);
     }
   }
