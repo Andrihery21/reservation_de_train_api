@@ -53,7 +53,7 @@ import {
       @Param('trajet')
       trajet: string,
     ): Promise<Reservation> {
-      return this.reservationService.findById(trajet);
+      return this.reservationService.findById2(trajet);
     }
   
     @Put(':id')

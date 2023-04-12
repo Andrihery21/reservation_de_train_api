@@ -20,7 +20,7 @@ import {
     ) {}
   
     async findAll(query: Query): Promise<Reservation[]> {
-      const resPerPage = 2;
+      const resPerPage = 4;
       const currentPage = Number(query.page) || 1;
       const skip = resPerPage * (currentPage - 1);
   
